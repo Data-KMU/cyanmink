@@ -3,8 +3,8 @@ const path = require("path");
 module.exports = {
   entry: "./index.js",
   output: {
-    path: path.resolve("dist"),
     filename: "main.js",
+    path: path.resolve(__dirname, "dist"),
   },
   resolve: {
     modules: [__dirname, "src", "node_modules"],
@@ -14,8 +14,8 @@ module.exports = {
     rules: [
       { test: /\.jsx?$/, loader: "babel-loader", exclude: /node_modules/ },
       {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"],
+        test: /\.s?css$/,
+        use: ["style-loader", "css-loader", "sass-loader"],
       },
     ],
   },
