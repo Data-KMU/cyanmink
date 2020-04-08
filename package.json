@@ -30,7 +30,10 @@
     "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
+    "mapbox-gl": "^1.9.1",
+    "normalize.css": "^8.0.1",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-mapbox-gl": "^4.8.3"
   }
 }
