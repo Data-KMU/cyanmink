@@ -1,21 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ReactMapboxGl from "react-mapbox-gl";
 
 import Layer from "./Layer";
-
+import DrawContoller from "./DrawController";
 import testjson from "../json/test.json";
 
 const Mapbox = ReactMapboxGl({
-  accessToken:
-    "pk.eyJ1IjoiZmVsaXhtYXlyIiwiYSI6ImNrNXd0amFhdzBwZjQzbGxiM3R4MGZlNzMifQ.rIemWdlB7VZpv19AZDWKTQ",
+  accessToken: process.env.MAPBOX_AT,
   dragRotate: false,
 });
 
 const Map = () => {
   const [zoom, setZoom] = useState(7);
   const [position, setPosition] = useState([12.1692, 47.5827]);
-
-  console.log("Zoom:" + zoom);
 
   return (
     <>
@@ -31,6 +28,7 @@ const Map = () => {
           setZoom(_.getZoom());
         }}
       >
+        <DrawContoller />
         <Area zoom={zoom} />
       </Mapbox>
     </>
