@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { GeolocateControl } from "mapbox-gl";
 import ReactMapboxGl from "react-mapbox-gl";
 
 import Layer from "./Layer";
@@ -11,8 +12,32 @@ const Mapbox = ReactMapboxGl({
 });
 
 const Map = () => {
-  const [zoom, setZoom] = useState(7);
   const [position, setPosition] = useState([12.1692, 47.5827]);
+  const [zoom, setZoom] = useState(7);
+
+  const onLoad = (map) => {
+    map.addControl(new GeolocateControl({ showAccuracyCircle: false }));
+
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        map.setCenter([position.coords.longitude, position.coords.latitude]);
+      });
+    } else {
+      console.error("Geolocation not available");
+    }
+  };
+
+  const onZoom = (map) => {
+    let mapZoom = map.getZoom();
+    setZoom(mapZoom);
+    console.log("Current Zoom: " + mapZoom);
+  };
+
+  const onMove = (map) => {
+    let mapPos = Object.values(map.getCenter());
+    setPosition(mapPos);
+    console.log("Current Position: " + mapPos);
+  };
 
   return (
     <>
@@ -24,9 +49,9 @@ const Map = () => {
           height: "100vh",
           width: "100vw",
         }}
-        onZoomEnd={(_) => {
-          setZoom(_.getZoom());
-        }}
+        onZoomEnd={onZoom}
+        onMoveEnd={onMove}
+        onStyleLoad={onLoad}
       >
         <DrawContoller />
         <Area zoom={zoom} />
