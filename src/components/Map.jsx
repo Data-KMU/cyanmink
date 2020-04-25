@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { GeolocateControl } from "mapbox-gl";
 import ReactMapboxGl from "react-mapbox-gl";
 
+import { getAreaID, getArea } from "../lib/functions";
 import Layer from "./Layer";
 import DrawContoller from "./DrawController";
 import testjson from "../json/test.json";
@@ -18,13 +19,16 @@ const Map = () => {
   const onLoad = (map) => {
     map.addControl(new GeolocateControl({ showAccuracyCircle: false }));
 
-    if ("geolocation" in navigator) {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        map.setCenter([position.coords.longitude, position.coords.latitude]);
-      });
-    } else {
-      console.error("Geolocation not available");
-    }
+    navigator.geolocation.getCurrentPosition(function (position) {
+      let { longitude, latitude } = position.coords;
+      let userLocation = [longitude, latitude];
+
+      map.setCenter(userLocation);
+
+      getAreaID(userLocation).then((id) =>
+        getArea(id).then((area) => console.log(area))
+      );
+    });
   };
 
   const onZoom = (map) => {
