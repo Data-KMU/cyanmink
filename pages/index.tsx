@@ -1,9 +1,10 @@
 import Layout from '../components/Layout';
+import Login from '../components/index/Login';
 
-const Home: React.FC = () => (
-  <Layout>
-    <h1 className="text-5xl font-bold text-purple-500">Hello world!</h1>
-  </Layout>
-);
+const Home: React.FC = () => {
+  const user = true;
+
+  return <Layout>{user ? <Login /> : <p>no</p>}</Layout>;
+};
 
 export default Home;

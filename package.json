@@ -12,7 +12,9 @@
   "dependencies": {
     "next": "9.3.6",
     "react": "16.13.1",
-    "react-dom": "16.13.1"
+    "react-dom": "16.13.1",
+    "react-map-gl": "^5.2.5",
+    "react-map-gl-draw": "^0.18.2"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^2.2.0",

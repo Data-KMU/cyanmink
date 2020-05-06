@@ -3,7 +3,7 @@ type Props = {
 };
 
 const Layout: React.FC<Props> = ({ children }: Props) => (
-  <div className="antialiased text-gray-900 flex items-center justify-center min-h-screen">
+  <div className="antialiased text-gray-900 flex justify-center items-center w-full min-h-screen">
     {children}
   </div>
 );
