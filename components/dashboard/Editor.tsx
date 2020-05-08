@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 const MapEditor: React.FC = () => {
   const [mode, setMode] = useState<EditingMode | DrawPolygonMode>();
   const [selectedFeatureIndex, setSelectedFeatureIndex] = useState<number>(0);
+
   const editor = useRef<Editor>(null);
 
   const onSelect = (options: any): void => {
@@ -32,8 +33,14 @@ const MapEditor: React.FC = () => {
           <button
             className="mapbox-gl-draw_ctrl-draw-btn mapbox-gl-draw_polygon"
             title="Polygon tool (p)"
-            style={mode === undefined ? undefined : { backgroundColor: 'blue' }}
-            onClick={(): void => setMode(mode === undefined ? new DrawPolygonMode() : undefined)}
+            style={{ backgroundColor: 'blue' }}
+            onClick={(): void => setMode(new DrawPolygonMode())}
+          />
+          <button
+            className="mapbox-gl-draw_ctrl-draw-btn mapbox-gl-draw_polygon"
+            title="Polygon tool (p)"
+            style={{ backgroundColor: 'red' }}
+            onClick={(): void => setMode(new EditingMode())}
           />
           <button
             className="mapbox-gl-draw_ctrl-draw-btn mapbox-gl-draw_trash"
@@ -53,7 +60,7 @@ const MapEditor: React.FC = () => {
         clickRadius={12}
         mode={mode}
         onSelect={(options: any): void => onSelect(options)}
-        onUpdate={onUpdate}
+        onUpdate={({ editType }: { editType: string }): void => onUpdate(editType)}
         editHandleShape={'circle'}
         selectedFeatureIndex={selectedFeatureIndex}
       />
