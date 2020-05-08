@@ -2,8 +2,9 @@ import MapGL from 'react-map-gl';
 
 import { getUserPosition } from '../../utils/getUserPosition';
 import Loading from './Loading';
-import useMapStore from '../../stores/dashboard/map';
 import MapContent from './MapContent';
+import useMapStore from '../../stores/dashboard/map';
+import MapEditor from './Editor';
 
 const TOKEN =
   'pk.eyJ1IjoiZmVsaXhtYXlyIiwiYSI6ImNrNXd0amFhdzBwZjQzbGxiM3R4MGZlNzMifQ.rIemWdlB7VZpv19AZDWKTQ';
@@ -39,6 +40,7 @@ const Map: React.FC = () => {
         onViewportChange={(viewState): void => updateViewport(viewState)}
       >
         <MapContent />
+        <MapEditor />
       </MapGL>
     </>
   );

@@ -15,7 +15,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-map-gl": "^5.2.5",
-    "react-map-gl-draw": "^0.18.2",
+    "react-map-gl-draw": "0.18.3",
     "zustand": "^2.2.3"
   },
   "devDependencies": {
