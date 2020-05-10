@@ -8,4 +8,7 @@ module.exports = {
   },
   variants: {},
   plugins: [],
+  corePlugins: {
+    outline: false,
+  },
 };

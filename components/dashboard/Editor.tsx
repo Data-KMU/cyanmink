@@ -1,55 +1,35 @@
-import { Editor, DrawPolygonMode, EditingMode } from 'react-map-gl-draw';
+import { Editor, EditingMode } from 'react-map-gl-draw';
 import { useRef, useState } from 'react';
+import useMapStore from '../../stores/dashboard/map';
+import useEditorStore from '../../stores/dashboard/editor';
 
 const MapEditor: React.FC = () => {
-  const [mode, setMode] = useState<EditingMode | DrawPolygonMode>();
+  const { addFeature } = useMapStore();
+  const { mode, setMode, setModeNr } = useEditorStore();
   const [selectedFeatureIndex, setSelectedFeatureIndex] = useState<number>(0);
 
   const editor = useRef<Editor>(null);
 
   const onSelect = (options: any): void => {
     setSelectedFeatureIndex(options && options.selectedFeatureIndex);
+    console.log('onSel Trigger');
   };
 
-  const onDelete = (): void => {
+  /*const onDelete = (): void => {
     const selectedIndex = selectedFeatureIndex;
-    if (selectedIndex !== null && selectedIndex >= 0) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
+    if (editor.current !== null && selectedIndex !== null && selectedIndex >= 0) {
       editor.current.deleteFeatures(selectedIndex);
     }
-  };
+    console.log('onDel Trigger');
+  };*/
 
   const onUpdate = (editType: string): void => {
-    if (editType === 'addFeature') {
+    if (editor.current !== null && editType === 'addFeature') {
       setMode(new EditingMode());
+      setModeNr(0);
+      addFeature(editor.current.getFeatures());
     }
-  };
-
-  const renderDrawTools = (): JSX.Element => {
-    return (
-      <div className="mapboxgl-ctrl-top-left">
-        <div className="mapboxgl-ctrl-group mapboxgl-ctrl">
-          <button
-            className="mapbox-gl-draw_ctrl-draw-btn mapbox-gl-draw_polygon"
-            title="Polygon tool (p)"
-            style={{ backgroundColor: 'blue' }}
-            onClick={(): void => setMode(new DrawPolygonMode())}
-          />
-          <button
-            className="mapbox-gl-draw_ctrl-draw-btn mapbox-gl-draw_polygon"
-            title="Polygon tool (p)"
-            style={{ backgroundColor: 'red' }}
-            onClick={(): void => setMode(new EditingMode())}
-          />
-          <button
-            className="mapbox-gl-draw_ctrl-draw-btn mapbox-gl-draw_trash"
-            title="Delete"
-            onClick={onDelete}
-          />
-        </div>
-      </div>
-    );
+    console.log('onUpd Trigger');
   };
 
   return (
@@ -64,7 +44,6 @@ const MapEditor: React.FC = () => {
         editHandleShape={'circle'}
         selectedFeatureIndex={selectedFeatureIndex}
       />
-      {renderDrawTools()}
     </>
   );
 };

@@ -10,7 +10,7 @@ const TOKEN =
   'pk.eyJ1IjoiZmVsaXhtYXlyIiwiYSI6ImNrNXd0amFhdzBwZjQzbGxiM3R4MGZlNzMifQ.rIemWdlB7VZpv19AZDWKTQ';
 
 const Map: React.FC = () => {
-  const { viewport, loaded, updateViewport, changeLoaded, setLocation } = useMapStore();
+  const { viewport, loaded, updateViewport, setLocation } = useMapStore();
 
   const onLoad = (): void => {
     getUserPosition()
@@ -23,8 +23,6 @@ const Map: React.FC = () => {
           console.log(e.message + '. code = ' + e.code);
         }
       });
-
-    changeLoaded();
   };
 
   return (
