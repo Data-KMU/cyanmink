@@ -4,7 +4,7 @@ import useMapStore from '../../stores/dashboard/map';
 import useEditorStore from '../../stores/dashboard/editor';
 
 const MapEditor: React.FC = () => {
-  const { addFeature } = useMapStore();
+  const { addFeature, updateFeature } = useMapStore();
   const { mode, setMode, setModeNr } = useEditorStore();
   const [selectedFeatureIndex, setSelectedFeatureIndex] = useState<number>(0);
 
@@ -12,7 +12,7 @@ const MapEditor: React.FC = () => {
 
   const onSelect = (options: any): void => {
     setSelectedFeatureIndex(options && options.selectedFeatureIndex);
-    console.log('onSel Trigger');
+    console.log('onSel Trigger', options);
   };
 
   /*const onDelete = (): void => {
@@ -29,7 +29,10 @@ const MapEditor: React.FC = () => {
       setModeNr(0);
       addFeature(editor.current.getFeatures());
     }
-    console.log('onUpd Trigger');
+    if (editor.current !== null && editType === 'movePosition') {
+      updateFeature(selectedFeatureIndex, editor.current.getFeatures()[selectedFeatureIndex]);
+    }
+    console.log('onUpd Trigger', selectedFeatureIndex, editType);
   };
 
   return (

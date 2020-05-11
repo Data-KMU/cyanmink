@@ -45,26 +45,3 @@ const Map: React.FC = () => {
 };
 
 export default Map;
-
-/*import React, { useEffect, useState } from 'react';
-import MapGL from 'react-map-gl';
-import { UseStore } from 'zustand';
-
-import { getUserPosition } from '../../utils/getUserPosition';
-import Loading from './Loading';
-
-const TOKEN =
-  'pk.eyJ1IjoiZmVsaXhtYXlyIiwiYSI6ImNrNXd0amFhdzBwZjQzbGxiM3R4MGZlNzMifQ.rIemWdlB7VZpv19AZDWKTQ';
-
-type Props = {
-  useStore: UseStore<Record<string | number | symbol, any>>;
-};
-
-const Map: React.FC<Props> = ({ useStore }: Props) => {
-  //const [viewport] = useState({});
-  //const { viewport, update } = useStore();
-  const [pos, setPos] = useState(false);
-  const [view, setView] = useState({});
-
-  //console.log(viewport);
-*/
