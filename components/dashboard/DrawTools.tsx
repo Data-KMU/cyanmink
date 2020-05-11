@@ -2,20 +2,20 @@ import { DrawPolygonMode, EditingMode } from 'react-map-gl-draw';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDrawPolygon, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-//import useMapStore from '../../stores/dashboard/map';
+import useMapStore from '../../stores/dashboard/map';
 import useEditorStore from '../../stores/dashboard/editor';
 
 const DrawTools: React.FC = () => {
   console.log('Draw Tools Trigger');
 
-  //const { features } = useMapStore();
+  const features = useMapStore((state) => state.features);
   const { modeNr, setMode, setModeNr } = useEditorStore();
 
   return (
-    <div className="top-0 absolute h-screen flex z-20">
+    <div className="self-start pointer-events-auto">
       <button
         className={
-          'self-start bg-white rounded-lg overflow-hidden shadow-xl p-4 m-4 outline-none ' +
+          'self-start bg-white rounded-lg overflow-hidden shadow-xl p-4 m-2 outline-none ' +
           (modeNr === 0 ? 'border-solid border-2 border-black' : '')
         }
         title="Editing Mode"
@@ -28,7 +28,7 @@ const DrawTools: React.FC = () => {
       </button>
       <button
         className={
-          'self-start bg-white rounded-lg overflow-hidden shadow-xl p-4 m-4 outline-none ' +
+          'self-start bg-white rounded-lg overflow-hidden shadow-xl p-4 m-2 outline-none ' +
           (modeNr === 1 ? 'border-solid border-2 border-black' : '')
         }
         title="Polygon Tool"
@@ -40,15 +40,15 @@ const DrawTools: React.FC = () => {
         <FontAwesomeIcon icon={faDrawPolygon} />
       </button>
       <button
-        className="self-start bg-white rounded-lg overflow-hidden shadow-xl p-4 m-4 outline-none"
+        className="self-start bg-white rounded-lg overflow-hidden shadow-xl p-4 m-2 outline-none"
         title="Delete"
       >
         <FontAwesomeIcon icon={faTrash} />
       </button>
       <button
-        className="self-start bg-white rounded-lg overflow-hidden shadow-xl p-4 m-4 outline-none"
+        className="self-start bg-white rounded-lg overflow-hidden shadow-xl p-4 m-2 outline-none"
         title="Delete"
-        //onClick={(): void => console.log(features)}
+        onClick={(): void => console.log(features)}
       >
         CL Features
       </button>

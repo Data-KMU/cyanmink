@@ -12,7 +12,7 @@ const [useStore] = create((set) => ({
   changeLoaded: (): void => set(({ loaded }) => ({ loaded: !loaded })),
   setLocation: (loc: Record<string, number>): void => set({ location: loc }),
   addFeature: (featureCollection: Array<Feature>): void =>
-    set(({ features }) => ({ features: [...features, ...featureCollection] })),
+    set({ features: [...featureCollection] }),
 }));
 
 export default useStore;

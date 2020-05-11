@@ -12,8 +12,11 @@ const Dashboard: React.FC = () => {
       <Head>
         <title>Dashboard</title>
       </Head>
-      <DrawTools />
-      <Positions />
+
+      <div className="absolute flex justify-between w-full z-10 pointer-events-none">
+        <DrawTools />
+        <Positions />
+      </div>
       <Map />
     </div>
   );
