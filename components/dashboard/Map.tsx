@@ -6,9 +6,6 @@ import MapContent from './MapContent';
 import useMapStore from '../../stores/dashboard/map';
 import MapEditor from './Editor';
 
-const TOKEN =
-  'pk.eyJ1IjoiZmVsaXhtYXlyIiwiYSI6ImNrNXd0amFhdzBwZjQzbGxiM3R4MGZlNzMifQ.rIemWdlB7VZpv19AZDWKTQ';
-
 const Map: React.FC = () => {
   const { viewport, loaded, updateViewport, setLocation } = useMapStore();
 
@@ -33,7 +30,7 @@ const Map: React.FC = () => {
         width="100%"
         height="100%"
         mapStyle="mapbox://styles/felixmayr/ck4h2kv441spq1co7x7hh17g0"
-        mapboxApiAccessToken={TOKEN}
+        mapboxApiAccessToken={process.env.MAPBOX}
         onLoad={onLoad}
         onViewportChange={(viewState): void => updateViewport(viewState)}
       >
