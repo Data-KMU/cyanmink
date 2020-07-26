@@ -3,22 +3,25 @@ import MapGL from 'react-map-gl';
 import { getUserPosition } from '../../utils/getUserPosition';
 import Loading from './Loading';
 import MapContent from './MapContent';
-import useMapStore from '../../stores/dashboard/map';
 import MapEditor from './Editor';
+import useMapStore from '../../stores/dashboard/map';
+import useInterfaceStore from '../../stores/dashboard/interface';
 
 const Map: React.FC = () => {
   const { viewport, loaded, updateViewport, setLocation } = useMapStore();
+  const { setLoaded } = useInterfaceStore();
 
   const onLoad = (): void => {
     getUserPosition()
-      .then((coords) => {
-        updateViewport({ ...coords, zoom: 8 });
-        setLocation(coords);
-      })
       .catch((e) => {
         if (e.name == 'PositionError') {
           console.log(e.message + '. code = ' + e.code);
         }
+      })
+      .then((coords) => {
+        updateViewport({ ...coords, zoom: 8 });
+        setLocation(coords);
+        setLoaded(true);
       });
   };
 
