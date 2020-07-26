@@ -9,7 +9,8 @@ const DrawTools: React.FC = () => {
   console.log('Draw Tools Trigger');
 
   const features = useMapStore((state) => state.features);
-  const { modeNr, setMode, setModeNr } = useEditorStore();
+  const deleteFeature = useMapStore((state) => state.deleteFeature);
+  const { selectedFeatureIndex, editor, modeNr, setMode, setModeNr } = useEditorStore();
 
   return (
     <div className="self-start pointer-events-auto">
@@ -42,6 +43,12 @@ const DrawTools: React.FC = () => {
       <button
         className="self-start bg-white rounded-lg overflow-hidden shadow-xl p-4 m-2 outline-none"
         title="Delete"
+        onClick={(): void => {
+          editor.current.deleteFeatures(selectedFeatureIndex);
+          setMode(new EditingMode());
+          setModeNr(0);
+          deleteFeature(selectedFeatureIndex);
+        }}
       >
         <FontAwesomeIcon icon={faTrash} />
       </button>

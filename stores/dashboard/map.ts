@@ -9,7 +9,7 @@ type Area = {
   created: number;
   validFrom: number;
   validUntil: number;
-  actuators: {};
+  actuators: Record<string, unknown>;
   sensors: null;
   samplers: null;
   elevation: number;
@@ -63,6 +63,12 @@ const updateArea = (features: Array<Area>, index: number, feature: Feature): Arr
   return newAreas;
 };
 
+const removeFeature = (features: Array<Area>, index: number) => {
+  const copy = [...features];
+  copy.splice(index, 1);
+  return copy;
+};
+
 const [useStore] = create((set) => ({
   loaded: true,
   viewport: {},
@@ -76,6 +82,10 @@ const [useStore] = create((set) => ({
   updateFeature: (index: number, feature: Feature): void =>
     set(({ features }) => ({
       features: updateArea(features, index, feature),
+    })),
+  deleteFeature: (index: number): void =>
+    set(({ features }) => ({
+      features: removeFeature(features, index),
     })),
 }));
 

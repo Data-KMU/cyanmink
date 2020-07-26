@@ -1,27 +1,26 @@
 import { Editor, EditingMode } from 'react-map-gl-draw';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import useMapStore from '../../stores/dashboard/map';
 import useEditorStore from '../../stores/dashboard/editor';
 
 const MapEditor: React.FC = () => {
   const { addFeature, updateFeature } = useMapStore();
-  const { mode, setMode, setModeNr } = useEditorStore();
-  const [selectedFeatureIndex, setSelectedFeatureIndex] = useState<number>(0);
+  const {
+    mode,
+    setMode,
+    setModeNr,
+    selectedFeatureIndex,
+    setSelectedFeatureIndex,
+    setEditor,
+  } = useEditorStore();
 
   const editor = useRef<Editor>(null);
 
   const onSelect = (options: any): void => {
     setSelectedFeatureIndex(options && options.selectedFeatureIndex);
     console.log('onSel Trigger', options);
+    setEditor(editor);
   };
-
-  /*const onDelete = (): void => {
-    const selectedIndex = selectedFeatureIndex;
-    if (editor.current !== null && selectedIndex !== null && selectedIndex >= 0) {
-      editor.current.deleteFeatures(selectedIndex);
-    }
-    console.log('onDel Trigger');
-  };*/
 
   const onUpdate = (editType: string): void => {
     if (editor.current !== null && editType === 'addFeature') {
