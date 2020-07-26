@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix",
-    "clean": "rimraf .next",
-    "fix": "find node_modules -name \"*.mjs\" | xargs rm"
+    "clean": "rimraf .next"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
@@ -41,5 +40,8 @@
     "rimraf": "^3.0.2",
     "tailwindcss": "^1.5.1",
     "typescript": "^3.9.7"
+  },
+  "resolutions": {
+    "@turf/difference": "6.0.1"
   }
 }
