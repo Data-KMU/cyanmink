@@ -15,8 +15,8 @@ const Dashboard: React.FC = () => {
 
         <div className="absolute flex justify-between w-full z-20 pointer-events-none">
           <DrawTools />
-          <Positions />
           <AreaList />
+          <Positions />
         </div>
 
         <Map />

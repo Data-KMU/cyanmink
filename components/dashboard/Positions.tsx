@@ -3,7 +3,7 @@ import useMapStore from '../../stores/dashboard/map';
 const Positions: React.FC = () => {
   const { location, viewport } = useMapStore();
   return (
-    <div className="self-end">
+    <div className="self-start">
       <div className="inline-block bg-white rounded-lg overflow-hidden shadow-xl p-4 m-2">
         <h3>Map Position</h3>
         <p>{String(Math.round(viewport.longitude * 100 + Number.EPSILON) / 100)}</p>

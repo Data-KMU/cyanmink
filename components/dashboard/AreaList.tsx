@@ -27,7 +27,9 @@ const MapContent: React.FC = () => {
           setModeNr(0);
         }}
       >
-        <p className="inline pr-4">Area {i}</p>
+        <p className="inline mr-4">Area {i}</p>
+      </button>
+      <button>
         <FontAwesomeIcon
           icon={faTrash}
           onClick={() => {

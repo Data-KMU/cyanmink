@@ -2,7 +2,7 @@ import create from 'zustand';
 import { ViewportProps } from 'react-map-gl';
 import { Feature, Position } from '@turf/helpers';
 
-type Area = {
+export type Area = {
   type: string;
   priority: number;
   extensionBehaviour: string;
@@ -78,7 +78,9 @@ const [useStore] = create((set) => ({
     set(({ viewport }) => ({ viewport: { ...viewport, ...newViewport } })),
   changeLoaded: (): void => set(({ loaded }) => ({ loaded: !loaded })),
   setLocation: (loc: Record<string, number>): void => set({ location: loc }),
-  addFeature: (featureArr: Array<Feature>): void => set({ features: filterObject(featureArr) }),
+  setFeatures: (areas: Area[]): void => set({ features: areas }),
+  addFeature: (featureArr: Array<Feature>): void =>
+    set(({ features }) => ({ features: [...features, ...filterObject(featureArr)] })),
   updateFeature: (index: number, feature: Feature): void =>
     set(({ features }) => ({
       features: updateArea(features, index, feature),
