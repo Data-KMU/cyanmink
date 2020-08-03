@@ -2,7 +2,7 @@ import { Area } from '../stores/dashboard/map';
 
 import axios from 'axios';
 
-export async function getSpacialEntities(coords: Pick<Coordinates, 'latitude' | 'longitude'>): any {
+export function getSpacialEntities(coords: Pick<Coordinates, 'latitude' | 'longitude'>): any {
   return axios
     .get(
       `https://purpletiger.taaja.io/v1/encode/position?longitude=${coords.longitude}&latitude=${coords.longitude}`,

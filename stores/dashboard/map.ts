@@ -79,8 +79,7 @@ const [useStore] = create((set) => ({
   changeLoaded: (): void => set(({ loaded }) => ({ loaded: !loaded })),
   setLocation: (loc: Record<string, number>): void => set({ location: loc }),
   setFeatures: (areas: Area[]): void => set({ features: areas }),
-  addFeature: (featureArr: Array<Feature>): void =>
-    set(({ features }) => ({ features: [...features, ...filterObject(featureArr)] })),
+  addFeature: (featureArr: Array<Feature>): void => set({ features: filterObject(featureArr) }),
   updateFeature: (index: number, feature: Feature): void =>
     set(({ features }) => ({
       features: updateArea(features, index, feature),

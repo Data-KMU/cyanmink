@@ -44,10 +44,12 @@ const DrawTools: React.FC = () => {
         className="self-start bg-white rounded-lg overflow-hidden shadow-xl p-4 m-2 outline-none"
         title="Delete"
         onClick={(): void => {
-          editor.current.deleteFeatures(selectedFeatureIndex);
+          if (selectedFeatureIndex != null) {
+            editor.current.deleteFeatures(selectedFeatureIndex);
+            deleteFeature(selectedFeatureIndex);
+          }
           setMode(new EditingMode());
           setModeNr(0);
-          deleteFeature(selectedFeatureIndex);
         }}
       >
         <FontAwesomeIcon icon={faTrash} />

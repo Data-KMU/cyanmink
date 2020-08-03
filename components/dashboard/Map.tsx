@@ -4,12 +4,11 @@ import { getUserPosition } from '../../utils/getUserPosition';
 import Loading from './Loading';
 import MapContent from './MapContent';
 import MapEditor from './Editor';
-import useMapStore, { Area } from '../../stores/dashboard/map';
+import useMapStore from '../../stores/dashboard/map';
 import useInterfaceStore from '../../stores/dashboard/interface';
-import { getSpacialEntities } from '../../utils/getSpacialEntities';
 
 const Map: React.FC = () => {
-  const { viewport, loaded, updateViewport, setFeatures, setLocation } = useMapStore();
+  const { viewport, loaded, updateViewport, setLocation } = useMapStore();
   const { setLoaded } = useInterfaceStore();
 
   const onLoad = (): void => {
@@ -23,8 +22,6 @@ const Map: React.FC = () => {
         updateViewport({ ...coords, zoom: 8 });
         setLocation(coords);
         setLoaded(true);
-        if (coords != null)
-          getSpacialEntities(coords).then((spaEnt: Area[]) => setFeatures(spaEnt));
       });
   };
 
