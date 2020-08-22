@@ -2,7 +2,7 @@ import create from 'zustand';
 import { DrawPolygonMode, EditingMode, Editor } from 'react-map-gl-draw';
 import { Ref } from 'react';
 
-const [useStore] = create((set) => ({
+const useStore = create((set) => ({
   mode: new EditingMode(),
   modeNr: 0,
   selectedFeatureIndex: null,
