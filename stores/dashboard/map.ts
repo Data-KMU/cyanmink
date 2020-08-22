@@ -7,11 +7,6 @@ export type Area = {
   priority: number;
   extensionBehaviour: string;
   created: number;
-  validFrom: number;
-  validUntil: number;
-  actuators: Record<string, unknown>;
-  sensors: null;
-  samplers: null;
   elevation: number;
   height: number;
   coordinates: Position | Position[] | Position[][] | Position[][][];
@@ -34,24 +29,17 @@ const generateUUID = (): string => {
   });
 };
 
-const filterObject = (features: Array<Feature>): Array<Area> => {
-  return features.map((feature) => {
-    return {
-      type: 'Area',
-      priority: 1000,
-      extensionBehaviour: 'trafficZone',
-      created: Date.now(),
-      validFrom: Date.now(),
-      validUntil: Date.now(),
-      actuators: {},
-      sensors: null,
-      samplers: null,
-      elevation: 123.0,
-      height: 456.0,
-      coordinates: 'coordinates' in feature.geometry ? feature.geometry.coordinates : [],
-      _id: generateUUID(),
-    };
-  });
+const filterObject = (feature: Feature, info: { elevation: number; height: number }): Area => {
+  return {
+    type: 'Area',
+    priority: 1000,
+    extensionBehaviour: 'trafficZone',
+    created: Date.now(),
+    elevation: info.elevation,
+    height: info.height,
+    coordinates: 'coordinates' in feature.geometry ? feature.geometry.coordinates : [],
+    _id: generateUUID(),
+  };
 };
 
 const updateArea = (features: Array<Area>, index: number, feature: Feature): Array<Area> => {
@@ -79,7 +67,8 @@ const [useStore] = create((set) => ({
   changeLoaded: (): void => set(({ loaded }) => ({ loaded: !loaded })),
   setLocation: (loc: Record<string, number>): void => set({ location: loc }),
   setFeatures: (areas: Area[]): void => set({ features: areas }),
-  addFeature: (featureArr: Array<Feature>): void => set({ features: filterObject(featureArr) }),
+  addFeature: (feature: Feature, info: { elevation: number; height: number }): void =>
+    set((state) => state.features.push(filterObject(feature, info))),
   updateFeature: (index: number, feature: Feature): void =>
     set(({ features }) => ({
       features: updateArea(features, index, feature),

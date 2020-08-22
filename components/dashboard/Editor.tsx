@@ -4,9 +4,10 @@ import useMapStore from '../../stores/dashboard/map';
 import useEditorStore from '../../stores/dashboard/editor';
 
 const MapEditor: React.FC = () => {
-  const { addFeature, updateFeature } = useMapStore();
+  const { updateFeature } = useMapStore();
   const {
     mode,
+    triggerPopUp,
     setMode,
     setModeNr,
     selectedFeatureIndex,
@@ -26,7 +27,7 @@ const MapEditor: React.FC = () => {
     if (editor.current !== null && editType === 'addFeature') {
       setMode(new EditingMode());
       setModeNr(0);
-      addFeature(editor.current.getFeatures());
+      triggerPopUp();
     }
     if (editor.current !== null && editType === 'movePosition') {
       updateFeature(selectedFeatureIndex, editor.current.getFeatures()[selectedFeatureIndex]);
