@@ -6,7 +6,6 @@ import useEditorStore from '../../stores/dashboard/editor';
 const DrawTools: React.FC = () => {
   console.log('Draw Tools Trigger');
 
-  const features = useMapStore((state: any) => state.features);
   const deleteFeature = useMapStore((state: any) => state.deleteFeature);
   const { selectedFeatureIndex, editor, modeNr, setMode, setModeNr } = useEditorStore();
 
@@ -66,13 +65,6 @@ const DrawTools: React.FC = () => {
             clipRule="evenodd"
           />
         </svg>
-      </button>
-      <button
-        className="self-start bg-white rounded-lg overflow-hidden shadow-xl p-4 m-2 outline-none"
-        title="Delete"
-        onClick={(): void => console.log(features)}
-      >
-        CL Features
       </button>
     </div>
   );

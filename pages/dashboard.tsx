@@ -5,7 +5,6 @@ import Positions from '../components/dashboard/Positions';
 import DrawTools from '../components/dashboard/DrawTools';
 import AreaList from '../components/dashboard/AreaList';
 import JSONViewer from '../components/dashboard/JSONViewer';
-import PopUp from '../components/dashboard/PopUp';
 
 const Dashboard: React.FC = () => {
   return (
@@ -18,10 +17,9 @@ const Dashboard: React.FC = () => {
           <DrawTools />
           <AreaList />
         </div>
-        <div className="absolute flex bottom-0 z-20 w-full overflow-hidden p-4 items-end">
+        <div className="absolute flex bottom-0 z-20 w-full overflow-hidden p-4 items-end pointer-events-none">
           <Positions />
           <JSONViewer />
-          <PopUp />
         </div>
         <Map />
       </div>

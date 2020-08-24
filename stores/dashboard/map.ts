@@ -11,7 +11,12 @@ export type Area = {
   height: number;
   coordinates: Position | Position[] | Position[][] | Position[][][];
   _id: string;
+  properties: {
+    name: string;
+  };
 };
+
+type Info = { elevation: number; height: number; name: string };
 
 const generateUUID = (): string => {
   let d = new Date().getTime();
@@ -29,24 +34,36 @@ const generateUUID = (): string => {
   });
 };
 
-const filterObject = (feature: Feature, info: { elevation: number; height: number }): Area => {
+const filterObject = (feature: Feature): Area => {
   return {
     type: 'Area',
     priority: 1000,
     extensionBehaviour: 'trafficZone',
     created: Date.now(),
-    elevation: info.elevation,
-    height: info.height,
+    elevation: 0,
+    height: 0,
     coordinates: 'coordinates' in feature.geometry ? feature.geometry.coordinates : [],
     _id: generateUUID(),
+    properties: {
+      name: 'Area',
+    },
   };
 };
 
-const updateArea = (features: Array<Area>, index: number, feature: Feature): Array<Area> => {
+const updateCoordinates = (features: Array<Area>, index: number, feature: Feature): Array<Area> => {
   const newAreas = [...features];
   'coordinates' in feature.geometry
     ? (newAreas[index].coordinates = feature.geometry.coordinates)
     : null;
+
+  return newAreas;
+};
+
+const updateInfos = (features: Array<Area>, index: number, info: Info): Array<Area> => {
+  const newAreas = [...features];
+  newAreas[index].height = info.height;
+  newAreas[index].elevation = info.elevation;
+  newAreas[index].properties.name = info.name;
 
   return newAreas;
 };
@@ -57,7 +74,7 @@ const removeFeature = (features: Array<Area>, index: number) => {
   return copy;
 };
 
-const [useStore] = create((set) => ({
+const useStore = create((set) => ({
   loaded: true,
   viewport: {},
   location: { longitude: 0, latitude: 0 },
@@ -67,11 +84,15 @@ const [useStore] = create((set) => ({
   changeLoaded: (): void => set(({ loaded }) => ({ loaded: !loaded })),
   setLocation: (loc: Record<string, number>): void => set({ location: loc }),
   setFeatures: (areas: Area[]): void => set({ features: areas }),
-  addFeature: (feature: Feature, info: { elevation: number; height: number }): void =>
-    set((state) => state.features.push(filterObject(feature, info))),
-  updateFeature: (index: number, feature: Feature): void =>
+  addFeature: (feature: Feature): void =>
+    set((state) => state.features.push(filterObject(feature))),
+  updateCoordinates: (index: number, feature: Feature): void =>
     set(({ features }) => ({
-      features: updateArea(features, index, feature),
+      features: updateCoordinates(features, index, feature),
+    })),
+  updateInfos: (index: number, info: Info): void =>
+    set(({ features }) => ({
+      features: updateInfos(features, index, info),
     })),
   deleteFeature: (index: number): void =>
     set(({ features }) => ({
