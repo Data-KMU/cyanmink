@@ -10,9 +10,6 @@
     "clean": "rimraf .next"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.30",
-    "@fortawesome/free-solid-svg-icons": "^5.14.0",
-    "@fortawesome/react-fontawesome": "^0.1.11",
     "axios": "^0.20.0",
     "lodash": "^4.17.19",
     "next": "9.5.2",
@@ -20,7 +17,6 @@
     "react-dom": "16.13.1",
     "react-map-gl": "^5.2.7",
     "react-map-gl-draw": "0.19.3",
-    "swr": "^0.3.1",
     "zustand": "^3.0.1"
   },
   "devDependencies": {
@@ -37,6 +33,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.20.3",
     "eslint-plugin-react-hooks": "^4.0.8",
+    "postcss-flexbugs-fixes": "^4.2.1",
     "postcss-preset-env": "^6.7.0",
     "prettier": "^2.0.5",
     "rimraf": "^3.0.2",

@@ -17,9 +17,9 @@ const Dashboard: React.FC = () => {
         <div className="absolute flex justify-between w-full z-20 pointer-events-none">
           <DrawTools />
           <AreaList />
-          <Positions />
         </div>
-        <div className="absolute flex right-0 z-20 h-full overflow-hidden">
+        <div className="absolute flex bottom-0 z-20 w-full overflow-hidden p-4 items-end">
+          <Positions />
           <JSONViewer />
           <PopUp />
         </div>
