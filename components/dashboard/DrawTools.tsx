@@ -22,11 +22,10 @@ const DrawTools: React.FC = () => {
           setModeNr(0);
         }}
       >
-        <svg viewBox="0 0 20 20" fill="currentColor" className="pencil-alt w-5 h-5">
-          <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+        <svg viewBox="0 0 20 20" fill="currentColor" className="hand w-5 h-5">
           <path
             fillRule="evenodd"
-            d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+            d="M9 3a1 1 0 012 0v5.5a.5.5 0 001 0V4a1 1 0 112 0v4.5a.5.5 0 001 0V6a1 1 0 112 0v5a7 7 0 11-14 0V9a1 1 0 012 0v2.5a.5.5 0 001 0V4a1 1 0 012 0v4.5a.5.5 0 001 0V3z"
             clipRule="evenodd"
           />
         </svg>
@@ -42,8 +41,13 @@ const DrawTools: React.FC = () => {
           setModeNr(1);
         }}
       >
-        <svg viewBox="0 0 20 20" fill="currentColor" className="cube w-5 h-5">
-          <path d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z" />
+        <svg viewBox="0 0 20 20" fill="currentColor" className="pencil-alt w-5 h-5">
+          <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+          <path
+            fillRule="evenodd"
+            d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
+            clipRule="evenodd"
+          />
         </svg>
       </button>
       <button
