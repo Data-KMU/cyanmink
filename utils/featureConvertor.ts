@@ -1,10 +1,12 @@
-import { Feature } from 'geojson';
-import { Area } from '../stores/dashboard/map';
+import { FeatureOf, Polygon } from '@nebula.gl/edit-modes';
 
-export function areaToFeature(area: Area): Feature {
+export function areaToFeature(area: any): FeatureOf<Polygon> {
   return {
     type: 'Feature',
-    geometry: area.coordinates,
-    properties: area.properties,
+    geometry: {
+      type: 'Polygon',
+      coordinates: area.coordinates,
+    },
+    properties: area.properties != null ? area.properties : {},
   };
 }

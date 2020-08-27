@@ -1,6 +1,7 @@
 import create from 'zustand';
 import { ViewportProps } from 'react-map-gl';
 import { Feature, Position } from '@turf/helpers';
+import { Geometry } from 'geojson';
 
 export type Area = {
   type: string;
@@ -9,7 +10,7 @@ export type Area = {
   created: number;
   elevation: number;
   height: number;
-  coordinates: Position | Position[] | Position[][] | Position[][][];
+  coordinates: Position | Position[] | Position[][] | Position[][][] | Geometry;
   _id: string;
   properties: {
     name: string;
@@ -45,7 +46,7 @@ const filterObject = (feature: Feature): Area => {
     coordinates: 'coordinates' in feature.geometry ? feature.geometry.coordinates : [],
     _id: generateUUID(),
     properties: {
-      name: 'Area',
+      name: feature.properties && feature.properties.name ? feature.properties.name : 'Area',
     },
   };
 };
@@ -75,13 +76,11 @@ const removeFeature = (features: Array<Area>, index: number) => {
 };
 
 const useStore = create((set) => ({
-  loaded: true,
   viewport: {},
   location: { longitude: 0, latitude: 0 },
   features: [],
   updateViewport: (newViewport: ViewportProps): void =>
     set(({ viewport }) => ({ viewport: { ...viewport, ...newViewport } })),
-  changeLoaded: (): void => set(({ loaded }) => ({ loaded: !loaded })),
   setLocation: (loc: Record<string, number>): void => set({ location: loc }),
   setFeatures: (areas: Area[]): void => set({ features: areas }),
   addFeature: (feature: Feature): void =>

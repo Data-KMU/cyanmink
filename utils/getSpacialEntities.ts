@@ -1,5 +1,3 @@
-import { Area } from '../stores/dashboard/map';
-
 import axios from 'axios';
 
 export function getSpacialEntities(
@@ -19,14 +17,14 @@ export function getSpacialEntities(
     });
 }
 
-export function getArea(id: string): Promise<Area> {
+export function getArea(id: string): Promise<any> {
   return axios
-    .get(`https://redcat.taaja.io/v1/extension/${id}`)
+    .get(`https://5f47ac3c95646700168d9b0b.mockapi.io/v1/extension`)
     .then((res: any) => {
       return res;
     })
     .catch((e) => {
-      if (e.name == 'Redcat Area Error') {
+      if (e.name == 'Redcat Area Error, ID: ' + id) {
         console.error(e.message + '. code = ' + e.code);
       }
     });
