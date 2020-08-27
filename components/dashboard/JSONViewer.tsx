@@ -23,19 +23,17 @@ const JSONViewer: React.FC = () => {
         >
           JSON
         </button>
-        {active && (
-          <a
-            href={`data:text/json;charset=utf-8,${encodeURIComponent(
-              JSON.stringify(features, null, 2),
-            )}`}
-            download="areas.json"
-            className="z-10"
-          >
-            <button className="self-end bg-white rounded-lg p-4 shadow-xl pointer-events-auto">
-              Download JSON
-            </button>
-          </a>
-        )}
+        <a
+          href={`data:text/json;charset=utf-8,${encodeURIComponent(
+            JSON.stringify(features, null, 2),
+          )}`}
+          download="areas.json"
+          className="z-10"
+        >
+          <button className="self-end bg-white rounded-lg p-4 shadow-xl pointer-events-auto">
+            Download JSON
+          </button>
+        </a>
       </div>
     </div>
   );

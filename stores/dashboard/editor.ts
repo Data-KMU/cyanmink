@@ -1,5 +1,5 @@
 import create from 'zustand';
-import { DrawPolygonMode, EditingMode, Editor } from 'react-map-gl-draw';
+import { DrawLineStringMode, DrawPolygonMode, EditingMode, Editor } from 'react-map-gl-draw';
 import { Ref } from 'react';
 
 const useStore = create((set) => ({
@@ -7,7 +7,8 @@ const useStore = create((set) => ({
   modeNr: 0,
   selectedFeatureIndex: null,
   editor: null,
-  setMode: (newMode: EditingMode | DrawPolygonMode): void => set({ mode: newMode }),
+  setMode: (newMode: EditingMode | DrawPolygonMode | DrawLineStringMode): void =>
+    set({ mode: newMode }),
   setModeNr: (newModeNr: number): void => set({ modeNr: newModeNr }),
   setSelectedFeatureIndex: (newSelectedFeatureIndex: number): void =>
     set({ selectedFeatureIndex: newSelectedFeatureIndex }),

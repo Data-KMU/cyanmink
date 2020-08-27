@@ -41,12 +41,51 @@ const DrawTools: React.FC = () => {
           setModeNr(1);
         }}
       >
-        <svg viewBox="0 0 20 20" fill="currentColor" className="pencil-alt w-5 h-5">
-          <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
+        <svg
+          width="171"
+          height="180"
+          viewBox="0 0 171 180"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-5 h-5"
+        >
           <path
-            fillRule="evenodd"
-            d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
-            clipRule="evenodd"
+            d="M138 16.5L161.5 163.5L21 138.5L26.5 47L138 16.5Z"
+            stroke="black"
+            strokeWidth="14"
+          />
+          <rect x="118" width="40" height="40" rx="5" fill="black" />
+          <rect x="8" y="26" width="40" height="40" rx="5" fill="black" />
+          <rect y="117" width="40" height="40" rx="5" fill="black" />
+          <rect x="142" y="142" width="40" height="40" rx="5" fill="black" />
+        </svg>
+      </button>
+      <button
+        className={
+          'self-start bg-white rounded-lg overflow-hidden shadow-xl p-4 m-2 outline-none ' +
+          (modeNr === 2 ? 'border-solid border-2 border-black' : '')
+        }
+        title="Line Tool"
+        onClick={(): void => {
+          // setMode(new DrawLineStringMode());
+          setModeNr(2);
+        }}
+      >
+        <svg
+          width="132"
+          height="139"
+          viewBox="0 0 132 139"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-5 h-5"
+        >
+          <rect x="92" y="43" width="40" height="40" rx="5" fill="black" />
+          <rect y="99" width="40" height="40" rx="5" fill="black" />
+          <path
+            d="M20 118.5L51 7L71 77L117 61.5"
+            stroke="black"
+            strokeWidth="14"
+            strokeLinejoin="round"
           />
         </svg>
       </button>
