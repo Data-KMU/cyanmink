@@ -14,6 +14,11 @@ button:focus {
     @apply w-full flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600;
 }
 
+.abs-overlay {
+    position: absolute;
+    z-index: 10;
+}
+
 /* Start purging... */
 @tailwind utilities;
 /* Stop purging. */

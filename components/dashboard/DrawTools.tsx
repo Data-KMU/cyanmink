@@ -10,7 +10,7 @@ const DrawTools: React.FC = () => {
   const { selectedFeatureIndex, editor, modeNr, setMode, setModeNr } = useEditorStore();
 
   return (
-    <div className="self-start pointer-events-auto">
+    <div className="abs-overlay left-0 top-0 pointer-events-auto">
       <button
         className={
           'self-start bg-white rounded-lg overflow-hidden shadow-xl p-4 m-2 outline-none ' +

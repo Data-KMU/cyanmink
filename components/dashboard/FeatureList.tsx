@@ -3,6 +3,7 @@ import { useState } from 'react';
 import useMapStore, { Area } from '../../stores/dashboard/map';
 import useEditorStore from '../../stores/dashboard/editor';
 import { EditingMode } from 'react-map-gl-draw';
+import FeatureSearch from './FeatureSearch';
 
 type AreaInfoProps = { area: Area; index: number; active: boolean };
 type AreaItemProps = { area: Area; index: number };
@@ -75,7 +76,7 @@ const AreaItem = ({ area, index }: AreaItemProps) => {
   return (
     <li
       key={index}
-      className="flex flex-col items-end pointer-events-auto bg-white rounded-lg overflow-hidden shadow-xl p-4 m-2"
+      className="flex flex-col items-end pointer-events-auto overflow-hidden p-4 border-t-2 border-gray-200"
     >
       <div className="flex w-full justify-between">
         <h3 className="mr-8 font-bold">{area.properties.name}</h3>
@@ -138,11 +139,13 @@ const AreaItem = ({ area, index }: AreaItemProps) => {
   );
 };
 
-const AreaList: React.FC = () => {
+const FeatureList: React.FC = () => {
   const { features } = useMapStore();
 
   return (
-    <ul>
+    <ul className="abs-overlay right-0 top-0 bg-white rounded-lg shadow-xl mr-2 mt-2">
+      <h4 className="py-2 text-center font-bold border-b-2 border-gray-200">Features</h4>
+      <FeatureSearch />
       {features.map((area: Area, i: number) => (
         <AreaItem area={area} index={i} key={i} />
       ))}
@@ -150,4 +153,4 @@ const AreaList: React.FC = () => {
   );
 };
 
-export default AreaList;
+export default FeatureList;
