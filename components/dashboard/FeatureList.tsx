@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import { EditingMode } from 'react-map-gl-draw';
 
 import useMapStore, { Area } from '../../stores/dashboard/map';
 import useEditorStore from '../../stores/dashboard/editor';
-import { EditingMode } from 'react-map-gl-draw';
+import useInterfaceStore from '../../stores/dashboard/interface';
 import FeatureSearch from './FeatureSearch';
 
 type AreaInfoProps = { area: Area; index: number; active: boolean };
@@ -141,14 +142,20 @@ const AreaItem = ({ area, index }: AreaItemProps) => {
 
 const FeatureList: React.FC = () => {
   const { features } = useMapStore();
+  const { search } = useInterfaceStore();
 
   return (
-    <ul className="abs-overlay right-0 top-0 bg-white rounded-lg shadow-xl mr-2 mt-2">
+    <ul
+      className="abs-overlay right-0 top-0 bg-white rounded-lg shadow-xl mr-2 mt-2"
+      style={{ minWidth: '240px' }}
+    >
       <h4 className="py-2 text-center font-bold border-b-2 border-gray-200">Features</h4>
       <FeatureSearch />
-      {features.map((area: Area, i: number) => (
-        <AreaItem area={area} index={i} key={i} />
-      ))}
+      {features
+        .filter((feature: Area) => feature.properties.name.startsWith(search))
+        .map((area: Area, i: number) => (
+          <AreaItem area={area} index={i} key={i} />
+        ))}
     </ul>
   );
 };
