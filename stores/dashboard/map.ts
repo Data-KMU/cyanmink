@@ -1,72 +1,64 @@
 import create from 'zustand';
 import { ViewportProps } from 'react-map-gl';
-import { Feature, Position } from '@turf/helpers';
-import { Geometry } from 'geojson';
+import { Feature, LineString, Polygon } from 'geojson';
+import { Area, AreaInfo, Corridor } from '../../interfaces';
 
-export type Area = {
-  type: string;
-  priority: number;
-  extensionBehaviour: string;
-  created: number;
-  elevation: number;
-  height: number;
-  coordinates: Position | Position[] | Position[][] | Position[][][] | Geometry;
-  _id: string;
-  properties: {
-    name: string;
-  };
-};
-
-type Info = { elevation: number; height: number; name: string };
-
-const generateUUID = (): string => {
-  let d = new Date().getTime();
-  let d2 = (performance && performance.now && performance.now() * 1000) || 0;
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    let r = Math.random() * 16;
-    if (d > 0) {
-      r = (d + r) % 16 | 0;
-      d = Math.floor(d / 16);
-    } else {
-      r = (d2 + r) % 16 | 0;
-      d2 = Math.floor(d2 / 16);
+const featureConverter = (
+  feature: Feature<Polygon> | Feature<LineString>,
+  type: string,
+): Area | Corridor | undefined => {
+  switch (type) {
+    case 'Area': {
+      return {
+        type: 'Area',
+        priority: 1000,
+        extensionBehaviour: 'trafficZone',
+        created: Date.now(),
+        elevation: 0,
+        height: 0,
+        coordinates: feature.geometry.coordinates,
+        properties: {
+          name: feature.properties && feature.properties.name ? feature.properties.name : 'Area',
+        },
+        _id: 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX',
+      };
     }
-    return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16);
-  });
+    case 'Corridor': {
+      return {
+        type: 'Corridor',
+        priority: 1000,
+        extensionBehaviour: 'trafficZone',
+        created: Date.now(),
+        shape: 'circular',
+        coordinates: feature.geometry.coordinates,
+        properties: {
+          name:
+            feature.properties && feature.properties.name ? feature.properties.name : 'Corridor',
+        },
+        _id: 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX',
+      };
+    }
+    default: {
+      console.error('Not a valid type');
+      break;
+    }
+  }
 };
 
-const filterObject = (feature: Feature): Area => {
-  return {
-    type: 'Area',
-    priority: 1000,
-    extensionBehaviour: 'trafficZone',
-    created: Date.now(),
-    elevation: 0,
-    height: 0,
-    coordinates: 'coordinates' in feature.geometry ? feature.geometry.coordinates : [],
-    _id: generateUUID(),
-    properties: {
-      name: feature.properties && feature.properties.name ? feature.properties.name : 'Area',
-    },
-  };
+const updateCoordinates = (features: Array<Area>, index: number, feature: Feature): Area[] => {
+  const featureArrayCopy = [...features];
+  featureArrayCopy[index].coordinates = feature.geometry.coordinates;
+
+  return featureArrayCopy;
 };
 
-const updateCoordinates = (features: Array<Area>, index: number, feature: Feature): Array<Area> => {
-  const newAreas = [...features];
-  'coordinates' in feature.geometry
-    ? (newAreas[index].coordinates = feature.geometry.coordinates)
-    : null;
+const updateInfos = (features: Array<Area>, index: number, info: AreaInfo): Area[] => {
+  const featureArrayCopy = [...features];
+  featureArrayCopy[index].height = info.height;
+  featureArrayCopy[index].elevation = info.elevation;
+  featureArrayCopy[index].properties.name = info.name;
 
-  return newAreas;
-};
-
-const updateInfos = (features: Array<Area>, index: number, info: Info): Array<Area> => {
-  const newAreas = [...features];
-  newAreas[index].height = info.height;
-  newAreas[index].elevation = info.elevation;
-  newAreas[index].properties.name = info.name;
-
-  return newAreas;
+  return featureArrayCopy;
 };
 
 const removeFeature = (features: Array<Area>, index: number) => {
@@ -83,13 +75,15 @@ const useStore = create((set) => ({
     set(({ viewport }) => ({ viewport: { ...viewport, ...newViewport } })),
   setLocation: (loc: Record<string, number>): void => set({ location: loc }),
   setFeatures: (areas: Area[]): void => set({ features: areas }),
-  addFeature: (feature: Feature): void =>
-    set((state) => state.features.push(filterObject(feature))),
+  addGeoFeature: (feature: Feature, type: string): void =>
+    set((state) => state.features.push(featureConverter(feature, type))),
+  addSpatialFeature: (feature: Area | Corridor): void =>
+    set((state) => state.features.push(feature)),
   updateCoordinates: (index: number, feature: Feature): void =>
     set(({ features }) => ({
       features: updateCoordinates(features, index, feature),
     })),
-  updateInfos: (index: number, info: Info): void =>
+  updateInfos: (index: number, info: AreaInfo): void =>
     set(({ features }) => ({
       features: updateInfos(features, index, info),
     })),

@@ -1,9 +1,9 @@
-import { DrawPolygonMode, EditingMode } from 'react-map-gl-draw';
+import { DrawLineStringMode, DrawPolygonMode, EditingMode } from 'react-map-gl-draw';
 
 import useMapStore from '../../stores/dashboard/map';
 import useEditorStore from '../../stores/dashboard/editor';
 
-const DrawTools: React.FC = () => {
+const DrawTools = (): JSX.Element => {
   console.log('Draw Tools Trigger');
 
   const deleteFeature = useMapStore((state: any) => state.deleteFeature);
@@ -67,7 +67,7 @@ const DrawTools: React.FC = () => {
         }
         title="Line Tool"
         onClick={(): void => {
-          // setMode(new DrawLineStringMode());
+          setMode(new DrawLineStringMode());
           setModeNr(2);
         }}
       >

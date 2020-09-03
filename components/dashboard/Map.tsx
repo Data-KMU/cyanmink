@@ -1,22 +1,23 @@
 import { useRef } from 'react';
-import MapGL from 'react-map-gl';
+import MapGL, { ViewportProps } from 'react-map-gl';
 import { EditingMode, Editor } from 'react-map-gl-draw';
 
 import MapContent from './MapContent';
 import useMapStore from '../../stores/dashboard/map';
 import useInterfaceStore from '../../stores/dashboard/interface';
 import { getUserPosition } from '../../utils/getUserPosition';
-import { getEditHandleStyle, getFeatureStyle } from '../../styles/editorStyle';
+import { editHandleStyle, featureStyle } from '../../styles/editorStyle';
 import useEditorStore from '../../stores/dashboard/editor';
-import { getArea, getSpacialEntities } from '../../utils/getSpacialEntities';
-import { areaToFeature } from '../../utils/featureConvertor';
+import { getFeature, getSpacialEntities } from '../../utils/getSpacialEntities';
+import { spatialJSONToGeoJSON } from '../../utils/featureConvertor';
 
 const Map: React.FC = () => {
   const {
     viewport,
     updateViewport,
     setLocation,
-    addFeature,
+    addGeoFeature,
+    addSpatialFeature,
     updateCoordinates,
     location,
   } = useMapStore();
@@ -39,10 +40,16 @@ const Map: React.FC = () => {
   };
 
   const onUpdate = (editType: string, data: any): void => {
+    const addedFeature = data[data.length - 1];
+
     if (editor.current !== null && editType === 'addFeature') {
       setMode(new EditingMode());
       setModeNr(0);
-      addFeature(data[data.length - 1]);
+      if (addedFeature.geometry.type === 'Polygon') {
+        addGeoFeature(addedFeature, 'Area');
+      } else {
+        addGeoFeature(addedFeature, 'Corridor');
+      }
     }
     if (editor.current !== null && editType === 'movePosition') {
       updateCoordinates(selectedFeatureIndex, editor.current.getFeatures()[selectedFeatureIndex]);
@@ -64,13 +71,14 @@ const Map: React.FC = () => {
         return getSpacialEntities(location);
       })
       .then((ids) => {
-        return getArea(ids[0]);
+        return getFeature(ids[0]);
       })
-      .then((area) => {
+      .then((feature) => {
         editor.current
-          ? editor.current.addFeatures(areaToFeature(area.data))
+          ? editor.current.addFeatures(spatialJSONToGeoJSON(feature.data))
           : console.error('Editor not mounted');
-        addFeature(areaToFeature(area.data));
+
+        addSpatialFeature(feature.data);
       });
   };
 
@@ -82,7 +90,7 @@ const Map: React.FC = () => {
       mapStyle="mapbox://styles/mapbox/streets-v11"
       mapboxApiAccessToken={process.env.MAPBOX}
       onLoad={onLoad}
-      onViewportChange={(viewState: any): void => updateViewport(viewState)}
+      onViewportChange={(viewState: ViewportProps): void => updateViewport(viewState)}
       style={{ cursor: 'pointer' }}
     >
       <MapContent />
@@ -96,8 +104,8 @@ const Map: React.FC = () => {
           onUpdate(editType, data)
         }
         editHandleShape={'circle'}
-        editHandleStyle={getEditHandleStyle}
-        featureStyle={getFeatureStyle}
+        editHandleStyle={editHandleStyle}
+        featureStyle={featureStyle}
         selectedFeatureIndex={selectedFeatureIndex}
       />
     </MapGL>

@@ -3,14 +3,15 @@ import { EditingMode } from 'react-map-gl-draw';
 import pull from 'lodash/pull';
 import map from 'lodash/map';
 
-import useMapStore, { Area } from '../../stores/dashboard/map';
+import useMapStore from '../../stores/dashboard/map';
 import useEditorStore from '../../stores/dashboard/editor';
 import useInterfaceStore from '../../stores/dashboard/interface';
 import FeatureSearch from './FeatureSearch';
+import { Area, Corridor } from '../../interfaces';
 
-type FeatureInfoProps = { feature: Area; index: number; active: boolean };
+type FeatureInfoProps = { feature: Area | Corridor; index: number; active: boolean };
 type FeatureProps = {
-  feature: Area;
+  feature: Area | Corridor;
   index: number;
   checked: number[];
   setChecked: Dispatch<SetStateAction<number[]>>;
@@ -19,21 +20,34 @@ type FeatureProps = {
 const FeatureInfo = ({ feature, index, active }: FeatureInfoProps) => {
   const { updateInfos } = useMapStore();
 
-  function updateInfo(input: string, type: string) {
-    if (type === 'elevation') {
-      updateInfos(index, {
-        elevation: Number(input),
-        height: feature.height,
-        name: feature.properties.name,
-      });
-    } else if (type === 'height') {
-      updateInfos(index, {
-        elevation: feature.elevation,
-        height: Number(input),
-        name: feature.properties.name,
-      });
-    } else if (type === 'name') {
-      updateInfos(index, { elevation: feature.elevation, height: feature.height, name: input });
+  function updateInfo(input: string, type: string, featureType: string) {
+    switch (featureType) {
+      case 'Area': {
+        if (type === 'elevation') {
+          updateInfos(index, {
+            elevation: Number(input),
+            height: feature.height,
+            name: feature.properties.name,
+          });
+        } else if (type === 'height') {
+          updateInfos(index, {
+            elevation: feature.elevation,
+            height: Number(input),
+            name: feature.properties.name,
+          });
+        } else if (type === 'name') {
+          updateInfos(index, { elevation: feature.elevation, height: feature.height, name: input });
+        }
+        break;
+      }
+      case 'Corridor': {
+        console.log('Corridor not Area');
+        break;
+      }
+      default: {
+        console.error('No Feature Type defined');
+        break;
+      }
     }
   }
 
@@ -44,28 +58,33 @@ const FeatureInfo = ({ feature, index, active }: FeatureInfoProps) => {
         <input
           type="text"
           placeholder={feature.properties.name}
-          onChange={(e) => updateInfo(e.target.value, 'name')}
+          onChange={(e) => updateInfo(e.target.value, 'name', feature.type)}
           className="w-full"
         />
       </li>
-      <li>
-        <h4>Elevation:</h4>
-        <input
-          type="text"
-          placeholder={String(feature.elevation)}
-          onChange={(e) => updateInfo(e.target.value, 'elevation')}
-          className="w-full"
-        />
-      </li>
-      <li>
-        <h4>Height:</h4>
-        <input
-          type="text"
-          placeholder={String(feature.height)}
-          onChange={(e) => updateInfo(e.target.value, 'height')}
-          className="w-full"
-        />
-      </li>
+
+      {feature.type === 'Area' && (
+        <>
+          <li>
+            <h4>Elevation:</h4>
+            <input
+              type="text"
+              placeholder={String(feature.elevation)}
+              onChange={(e) => updateInfo(e.target.value, 'elevation', feature.type)}
+              className="w-full"
+            />
+          </li>
+          <li>
+            <h4>Height:</h4>
+            <input
+              type="text"
+              placeholder={String(feature.height)}
+              onChange={(e) => updateInfo(e.target.value, 'height', feature.type)}
+              className="w-full"
+            />
+          </li>
+        </>
+      )}
     </ul>
   );
 };
@@ -175,8 +194,8 @@ const FeatureList = (): JSX.Element => {
       <h4 className="py-2 text-center font-bold border-b-2 border-gray-200">Features</h4>
       <FeatureSearch />
       {features
-        .filter((feature: Area) => feature.properties.name.startsWith(search))
-        .map((feature: Area, i: number) => (
+        .filter((feature: Area | Corridor) => feature.properties.name.startsWith(search))
+        .map((feature: Area | Corridor, i: number) => (
           <Feature feature={feature} index={i} key={i} checked={checked} setChecked={setChecked} />
         ))}
       <div className="border-t-2 border-gray-200">
@@ -184,7 +203,7 @@ const FeatureList = (): JSX.Element => {
           href={`data:text/json;charset=utf-8,${encodeURIComponent(
             JSON.stringify(features, null, 2),
           )}`}
-          download="areas.json"
+          download="features_all.json"
           className="z-10"
         >
           <button className="p-4 pointer-events-auto" onClick={() => console.log(features)}>
@@ -199,7 +218,7 @@ const FeatureList = (): JSX.Element => {
               2,
             ),
           )}`}
-          download="areas.json"
+          download="features_selection.json"
           className="z-10 border-l-2 border-gray-200"
         >
           <button

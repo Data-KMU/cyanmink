@@ -1,12 +1,15 @@
-import { FeatureOf, Polygon } from '@nebula.gl/edit-modes';
+import { Area, Corridor } from '../interfaces';
+import { FeatureOf, LineString, Polygon } from '@nebula.gl/edit-modes';
 
-export function areaToFeature(area: any): FeatureOf<Polygon> {
+export function spatialJSONToGeoJSON(
+  feature: Area | Corridor,
+): FeatureOf<Polygon> | FeatureOf<LineString> {
   return {
     type: 'Feature',
     geometry: {
-      type: 'Polygon',
-      coordinates: area.coordinates,
+      type: feature.type === 'Area' ? 'Polygon' : 'LineString',
+      coordinates: feature.coordinates,
     },
-    properties: area.properties != null ? area.properties : {},
+    properties: feature.properties != null ? feature.properties : {},
   };
 }

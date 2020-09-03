@@ -24,3 +24,7 @@ button:focus {
 /* Stop purging. */
 
 /* Utilities */
+
+.mapboxgl-ctrl-bottom-left {
+    display: none !important;
+}

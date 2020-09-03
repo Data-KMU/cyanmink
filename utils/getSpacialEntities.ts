@@ -17,7 +17,7 @@ export function getSpacialEntities(
     });
 }
 
-export function getArea(id: string): Promise<any> {
+export function getFeature(id: string): Promise<any> {
   return axios
     .get(`https://5f47ac3c95646700168d9b0b.mockapi.io/v1/extension`)
     .then((res: any) => {
