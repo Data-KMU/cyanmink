@@ -42,7 +42,7 @@ const DEFAULT_STYLE = {
   fillOpacity: 0.1,
 };
 
-export function featureStyle({ feature, state }) {
+export function featureStyle({ feature, state }: any): any {
   const type = feature.properties.shape || feature.geometry.type;
   let style = null;
 
@@ -70,6 +70,8 @@ export function featureStyle({ feature, state }) {
 
   switch (type) {
     case SHAPE.POINT:
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       style.r = CIRCLE_RADIUS;
       break;
     case SHAPE.LINE_STRING:
@@ -77,12 +79,16 @@ export function featureStyle({ feature, state }) {
       break;
     case SHAPE.POLYGON:
       if (state === RENDER_STATE.CLOSING) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         style.strokeDasharray = '4,2';
       }
 
       break;
     case SHAPE.RECTANGLE:
       if (state === RENDER_STATE.UNCOMMITTED) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         style.strokeDasharray = '4,2';
       }
 
@@ -93,8 +99,8 @@ export function featureStyle({ feature, state }) {
   return style;
 }
 
-export function editHandleStyle({ feature, shape, index, state }) {
-  let style: {};
+export function editHandleStyle({ shape, state }: any): any {
+  let style: Record<string, unknown>;
   switch (state) {
     case RENDER_STATE.SELECTED:
       style = { ...SELECTED_STYLE };
@@ -119,7 +125,8 @@ export function editHandleStyle({ feature, shape, index, state }) {
 
   switch (shape) {
     case 'circle':
-      //@ts-ignore
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       style.r = CIRCLE_RADIUS;
       break;
     case 'rect':
