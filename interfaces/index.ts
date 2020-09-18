@@ -14,7 +14,15 @@ export type Area = {
   _id: string;
 };
 
-export type AreaInfo = { elevation: number; height: number; name: string };
+export type AreaInfo = {
+  elevation?: number;
+  height?: number;
+  extensionBehaviour?: string;
+  priority?: number;
+  properties?: {
+    name: string;
+  };
+};
 
 export type Corridor = {
   type: string;

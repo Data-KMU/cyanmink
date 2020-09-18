@@ -20,42 +20,23 @@ type FeatureProps = {
 const FeatureInfo = ({ feature, index, active }: FeatureInfoProps) => {
   const { updateInfos } = useMapStore();
 
-  function updateInfo(input: string, type: string, featureType: string) {
-    switch (featureType) {
-      case 'Area': {
-        if (type === 'elevation') {
-          updateInfos(index, {
-            elevation: Number(input),
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            height: feature.height,
-            name: feature.properties.name,
-          });
-        } else if (type === 'height') {
-          updateInfos(index, {
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            elevation: feature.elevation,
-            height: Number(input),
-            name: feature.properties.name,
-          });
-        } else if (type === 'name') {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
-          updateInfos(index, { elevation: feature.elevation, height: feature.height, name: input });
-        }
-        break;
-      }
-      case 'Corridor': {
-        console.log('Corridor not Area');
-        break;
-      }
-      default: {
-        console.error('No Feature Type defined');
-        break;
-      }
+  const updateInfo = (input: string, type: string) => {
+    if (type === 'elevation') {
+      updateInfos(index, {
+        elevation: Number(input),
+      });
+    } else if (type === 'height') {
+      updateInfos(index, {
+        height: Number(input),
+      });
+    } else if (type === 'name') {
+      updateInfos(index, { properties: { name: input } });
+    } else if (type === 'priority') {
+      updateInfos(index, { priority: Number(input) });
+    } else if (type === 'extBeh') {
+      updateInfos(index, { extensionBehaviour: input });
     }
-  }
+  };
 
   return (
     <ul className={`${active ? '' : 'hidden'} mt-4 w-full`}>
@@ -64,7 +45,7 @@ const FeatureInfo = ({ feature, index, active }: FeatureInfoProps) => {
         <input
           type="text"
           placeholder={feature.properties.name}
-          onChange={(e) => updateInfo(e.target.value, 'name', feature.type)}
+          onChange={(e) => updateInfo(e.target.value, 'name')}
           className="w-full"
         />
       </li>
@@ -78,7 +59,7 @@ const FeatureInfo = ({ feature, index, active }: FeatureInfoProps) => {
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               placeholder={String(feature.elevation)}
-              onChange={(e) => updateInfo(e.target.value, 'elevation', feature.type)}
+              onChange={(e) => updateInfo(e.target.value, 'elevation')}
               className="w-full"
             />
           </li>
@@ -89,12 +70,43 @@ const FeatureInfo = ({ feature, index, active }: FeatureInfoProps) => {
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-ignore
               placeholder={String(feature.height)}
-              onChange={(e) => updateInfo(e.target.value, 'height', feature.type)}
+              onChange={(e) => updateInfo(e.target.value, 'height')}
               className="w-full"
             />
           </li>
         </>
       )}
+      <li>
+        <h4>Priority:</h4>
+        <select
+          className="w-full border-2 border-gray-500 rounded"
+          name="priority"
+          id="priority"
+          onBlur={(e) => updateInfo(e.target.value, 'priority')}
+          onChange={(e) => updateInfo(e.target.value, 'priority')}
+          value={String(feature.priority)}
+        >
+          <option value="1">1</option>
+          <option value="10">10</option>
+          <option value="100">100</option>
+          <option value="1000">1000</option>
+        </select>
+      </li>
+      <li>
+        <h4>Extension Behaviour:</h4>
+        <select
+          className="w-full border-2 border-gray-500 rounded"
+          name="extBeh"
+          id="extBeh"
+          onBlur={(e) => updateInfo(e.target.value, 'extBeh')}
+          onChange={(e) => updateInfo(e.target.value, 'extBeh')}
+          value={feature.extensionBehaviour}
+        >
+          <option value="trafficZone">trafficZone</option>
+          <option value="testZone">testZone</option>
+          <option value="testerZone">testerZone</option>
+        </select>
+      </li>
     </ul>
   );
 };

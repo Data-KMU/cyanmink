@@ -54,9 +54,8 @@ const updateCoordinates = (features: Array<Area>, index: number, feature: Featur
 
 const updateInfos = (features: Array<Area>, index: number, info: AreaInfo): Area[] => {
   const featureArrayCopy = [...features];
-  featureArrayCopy[index].height = info.height;
-  featureArrayCopy[index].elevation = info.elevation;
-  featureArrayCopy[index].properties.name = info.name;
+
+  featureArrayCopy[index] = { ...featureArrayCopy[index], ...info };
 
   return featureArrayCopy;
 };
