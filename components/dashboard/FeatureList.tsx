@@ -26,16 +26,22 @@ const FeatureInfo = ({ feature, index, active }: FeatureInfoProps) => {
         if (type === 'elevation') {
           updateInfos(index, {
             elevation: Number(input),
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             height: feature.height,
             name: feature.properties.name,
           });
         } else if (type === 'height') {
           updateInfos(index, {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             elevation: feature.elevation,
             height: Number(input),
             name: feature.properties.name,
           });
         } else if (type === 'name') {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           updateInfos(index, { elevation: feature.elevation, height: feature.height, name: input });
         }
         break;
@@ -69,6 +75,8 @@ const FeatureInfo = ({ feature, index, active }: FeatureInfoProps) => {
             <h4>Elevation:</h4>
             <input
               type="text"
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
               placeholder={String(feature.elevation)}
               onChange={(e) => updateInfo(e.target.value, 'elevation', feature.type)}
               className="w-full"
@@ -78,6 +86,8 @@ const FeatureInfo = ({ feature, index, active }: FeatureInfoProps) => {
             <h4>Height:</h4>
             <input
               type="text"
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
               placeholder={String(feature.height)}
               onChange={(e) => updateInfo(e.target.value, 'height', feature.type)}
               className="w-full"
@@ -187,17 +197,25 @@ const FeatureList = (): JSX.Element => {
   const [checked, setChecked] = useState<number[]>([]);
 
   return (
-    <ul
+    <div
       className="abs-overlay right-0 top-0 bg-white rounded-lg shadow-xl mr-2 mt-2"
       style={{ minWidth: '240px' }}
     >
       <h4 className="py-2 text-center font-bold border-b-2 border-gray-200">Features</h4>
       <FeatureSearch />
-      {features
-        .filter((feature: Area | Corridor) => feature.properties.name.startsWith(search))
-        .map((feature: Area | Corridor, i: number) => (
-          <Feature feature={feature} index={i} key={i} checked={checked} setChecked={setChecked} />
-        ))}
+      <ul style={{ maxHeight: '40vh', overflowY: 'scroll' }}>
+        {features
+          .filter((feature: Area | Corridor) => feature.properties.name.startsWith(search))
+          .map((feature: Area | Corridor, i: number) => (
+            <Feature
+              feature={feature}
+              index={i}
+              key={i}
+              checked={checked}
+              setChecked={setChecked}
+            />
+          ))}
+      </ul>
       <div className="border-t-2 border-gray-200">
         <a
           href={`data:text/json;charset=utf-8,${encodeURIComponent(
@@ -229,7 +247,7 @@ const FeatureList = (): JSX.Element => {
           </button>
         </a>
       </div>
-    </ul>
+    </div>
   );
 };
 

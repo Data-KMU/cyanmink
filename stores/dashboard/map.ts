@@ -1,12 +1,9 @@
 import create from 'zustand';
 import { ViewportProps } from 'react-map-gl';
-import { Feature, LineString, Polygon } from 'geojson';
+import { Feature } from 'geojson';
 import { Area, AreaInfo, Corridor } from '../../interfaces';
 
-const featureConverter = (
-  feature: Feature<Polygon> | Feature<LineString>,
-  type: string,
-): Area | Corridor | undefined => {
+const featureConverter = (feature: Feature, type: string): Area | Corridor | undefined => {
   switch (type) {
     case 'Area': {
       return {
@@ -16,7 +13,7 @@ const featureConverter = (
         created: Date.now(),
         elevation: 0,
         height: 0,
-        coordinates: feature.geometry.coordinates,
+        coordinates: 'coordinates' in feature.geometry ? feature.geometry.coordinates : [],
         properties: {
           name: feature.properties && feature.properties.name ? feature.properties.name : 'Area',
         },
@@ -30,7 +27,7 @@ const featureConverter = (
         extensionBehaviour: 'trafficZone',
         created: Date.now(),
         shape: 'circular',
-        coordinates: feature.geometry.coordinates,
+        coordinates: 'coordinates' in feature.geometry ? feature.geometry.coordinates : [],
         properties: {
           name:
             feature.properties && feature.properties.name ? feature.properties.name : 'Corridor',
@@ -47,7 +44,10 @@ const featureConverter = (
 
 const updateCoordinates = (features: Array<Area>, index: number, feature: Feature): Area[] => {
   const featureArrayCopy = [...features];
-  featureArrayCopy[index].coordinates = feature.geometry.coordinates;
+
+  'coordinates' in feature.geometry
+    ? (featureArrayCopy[index].coordinates = feature.geometry.coordinates)
+    : null;
 
   return featureArrayCopy;
 };

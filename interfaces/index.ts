@@ -1,4 +1,4 @@
-import { LineStringCoordinates, PolygonCoordinates } from '@nebula.gl/edit-modes';
+import { Position } from 'geojson';
 
 export type Area = {
   type: string;
@@ -7,7 +7,7 @@ export type Area = {
   created: number;
   elevation: number;
   height: number;
-  coordinates: PolygonCoordinates | LineStringCoordinates | Position[] | Position[][];
+  coordinates: Position | Position[] | Position[][] | Position[][][] | number[];
   properties: {
     name: string;
   };
@@ -22,7 +22,7 @@ export type Corridor = {
   extensionBehaviour: string;
   created: number;
   shape: string;
-  coordinates: PolygonCoordinates | LineStringCoordinates | Position[] | Position[][];
+  coordinates: Position | Position[] | Position[][] | Position[][][] | number[];
   properties: {
     name: string;
   };

@@ -11,7 +11,7 @@ import useEditorStore from '../../stores/dashboard/editor';
 import { getFeature, getSpacialEntities } from '../../utils/getSpacialEntities';
 import { spatialJSONToGeoJSON } from '../../utils/featureConvertor';
 
-const Map: React.FC = () => {
+const Map = (): JSX.Element => {
   const {
     viewport,
     updateViewport,
@@ -36,7 +36,6 @@ const Map: React.FC = () => {
   const onSelect = (options: any): void => {
     setSelectedFeatureIndex(options && options.selectedFeatureIndex);
     console.log('onSel Trigger', options);
-    setEditor(editor);
   };
 
   const onUpdate = (editType: string, data: any): void => {
@@ -80,6 +79,7 @@ const Map: React.FC = () => {
 
         addSpatialFeature(feature.data);
       });
+    setEditor(editor);
   };
 
   return (

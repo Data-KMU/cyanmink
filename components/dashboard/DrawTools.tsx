@@ -1,13 +1,11 @@
 import { DrawLineStringMode, DrawPolygonMode, EditingMode } from 'react-map-gl-draw';
 
-import useMapStore from '../../stores/dashboard/map';
 import useEditorStore from '../../stores/dashboard/editor';
 
 const DrawTools = (): JSX.Element => {
   console.log('Draw Tools Trigger');
 
-  const deleteFeature = useMapStore((state: any) => state.deleteFeature);
-  const { selectedFeatureIndex, editor, modeNr, setMode, setModeNr } = useEditorStore();
+  const { modeNr, setMode, setModeNr } = useEditorStore();
 
   return (
     <div className="abs-overlay left-0 top-0 pointer-events-auto">
@@ -86,26 +84,6 @@ const DrawTools = (): JSX.Element => {
             stroke="black"
             strokeWidth="14"
             strokeLinejoin="round"
-          />
-        </svg>
-      </button>
-      <button
-        className="self-start bg-white rounded-lg overflow-hidden shadow-xl p-4 m-2 outline-none"
-        title="Delete"
-        onClick={(): void => {
-          if (selectedFeatureIndex != null) {
-            editor.current.deleteFeatures(selectedFeatureIndex);
-            deleteFeature(selectedFeatureIndex);
-          }
-          setMode(new EditingMode());
-          setModeNr(0);
-        }}
-      >
-        <svg viewBox="0 0 20 20" fill="currentColor" className="trash w-5 h-5">
-          <path
-            fillRule="evenodd"
-            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-            clipRule="evenodd"
           />
         </svg>
       </button>
