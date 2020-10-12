@@ -17,7 +17,6 @@ const featureConverter = (feature: Feature, type: string): Area | Corridor | und
         properties: {
           name: feature.properties && feature.properties.name ? feature.properties.name : 'Area',
         },
-        _id: 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX',
       };
     }
     case 'Corridor': {
@@ -32,7 +31,6 @@ const featureConverter = (feature: Feature, type: string): Area | Corridor | und
           name:
             feature.properties && feature.properties.name ? feature.properties.name : 'Corridor',
         },
-        _id: 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX',
       };
     }
     default: {

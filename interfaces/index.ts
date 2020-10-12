@@ -11,7 +11,6 @@ export type Area = {
   properties: {
     name: string;
   };
-  _id: string;
 };
 
 export type AreaInfo = {
@@ -34,5 +33,4 @@ export type Corridor = {
   properties: {
     name: string;
   };
-  _id: string;
 };
