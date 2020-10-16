@@ -1,12 +1,15 @@
 import React, { useEffect, useRef } from 'react';
 import ReactMapboxGl from 'react-mapbox-gl';
 import DrawControl from 'react-mapbox-gl-draw';
+import { FeatureCollection } from 'geojson';
 
 import '@mapbox/mapbox-gl-draw/dist/mapbox-gl-draw.css';
 import { useMapStore } from '../stores/map';
+import { useInterfaceStore } from '../stores/interface';
 import { getUserPosition } from '../utils/getUserLocation';
+import { getSpatialEntities, getSpatialEntitiesIDs } from '../utils/fetchTaaja';
 
-const featureCollection = {
+const featureCollection: FeatureCollection = {
   type: 'FeatureCollection',
   features: [
     {
@@ -176,31 +179,37 @@ const featureCollection = {
 
 function Editor() {
   const DrawControlRef = useRef<any>();
+  const addFeature = useMapStore((state) => state.addFeature);
+  const addFeatures = useMapStore((state) => state.addFeatures);
 
   useEffect(() => {
     DrawControlRef.current.draw.set(featureCollection);
-  }, []);
+    addFeatures(featureCollection);
+  }, [addFeature, addFeatures]);
 
-  const addFeature = useMapStore((state) => state.addFeature);
-  const create = (e: any) => addFeature(e.features[0]);
+  const onDrawCreate = (e: any) => addFeature(e.features[0]);
 
   return (
-    <DrawControl
-      controls={{
-        point: false,
-        trash: false,
-        combine_features: false,
-        uncombine_features: false,
-      }}
-      onDrawCreate={create}
-      onDrawUpdate={(e) => console.log(e)}
-      ref={DrawControlRef}
-    />
+    <>
+      <DrawControl
+        controls={{
+          point: false,
+          trash: false,
+          combine_features: false,
+          uncombine_features: false,
+        }}
+        onDrawCreate={onDrawCreate}
+        onDrawUpdate={(e) => console.log(e)}
+        ref={DrawControlRef}
+      />
+    </>
   );
 }
 
 function Map() {
   const MapRef = useRef<any>();
+  const updateCoords = useMapStore((state) => state.updateCoords);
+  const toggleLoaded = useInterfaceStore((state) => state.toggleLoaded);
 
   const Map = ReactMapboxGl({
     accessToken: process.env.REACT_APP_MAPBOX_KEY!,
@@ -210,12 +219,26 @@ function Map() {
     getUserPosition()
       .catch((e: any) => {
         if (e.name === 'PositionError') {
-          console.log(e.message + '. code = ' + e.code);
+          console.error(e.message + '. code = ' + e.code);
         }
       })
       .then((coords) => {
-        if (coords)
+        if (coords) {
+          // Move Map To Location
           map.flyTo({ center: [coords.longitude, coords.latitude] });
+
+          // State Updates
+          updateCoords([coords.longitude, coords.latitude]);
+          toggleLoaded();
+
+          // Purpletiger Abfrage
+          return getSpatialEntitiesIDs(coords).then(res => res.spatialEntities)
+        }
+      })
+      .then((entitiesIDs) => {
+        entitiesIDs!.forEach(entityID => {
+          getSpatialEntities(entityID).then()
+        })
       });
   };
 

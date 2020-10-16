@@ -34,3 +34,16 @@ export type Corridor = {
   };
   _id: string;
 };
+
+export type Coords = {
+  longitude: number;
+  latitude: number;
+}
+
+export type PurpleTigerRes = {
+  spatialEntities: any[],
+  longitude: number,
+  latitude: number,
+  altitude: null,
+  created: number
+}
