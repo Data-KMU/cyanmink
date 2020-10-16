@@ -1,3 +1,5 @@
+import { Position } from 'geojson';
+
 export type Area = {
   type: string;
   priority: number;
