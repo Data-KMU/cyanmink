@@ -1,5 +1,4 @@
-import { Area, Corridor } from '../interfaces';
-import { Feature } from 'geojson';
+import { Area, Corridor, Feature } from '../interfaces';
 
 export function entityToFeature(entity: Area | Corridor) {
   return {
@@ -9,12 +8,13 @@ export function entityToFeature(entity: Area | Corridor) {
       coordinates: entity.coordinates,
     },
     properties: entity.properties != null ? entity.properties : {},
+    id: entity._id,
   };
 }
 
-export function featureToEntity(feature: Feature, type: string): Area | Corridor | undefined {
-  switch (type) {
-    case 'Area': {
+export function featureToEntity(feature: Feature): Area | Corridor {
+  switch (feature.geometry.type) {
+    case 'Polygon': {
       return {
         type: 'Area',
         priority: 1000,
@@ -22,21 +22,21 @@ export function featureToEntity(feature: Feature, type: string): Area | Corridor
         created: Date.now(),
         elevation: 0,
         height: 0,
-        coordinates: 'coordinates' in feature.geometry ? feature.geometry.coordinates : [],
+        coordinates: feature.geometry.coordinates,
         properties: {
           name: feature.properties && feature.properties.name ? feature.properties.name : 'Area',
         },
         _id: 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX',
       };
     }
-    case 'Corridor': {
+    case 'LineString': {
       return {
         type: 'Corridor',
         priority: 1000,
         extensionBehaviour: 'trafficZone',
         created: Date.now(),
         shape: 'circular',
-        coordinates: 'coordinates' in feature.geometry ? feature.geometry.coordinates : [],
+        coordinates: feature.geometry.coordinates,
         properties: {
           name:
             feature.properties && feature.properties.name ? feature.properties.name : 'Corridor',
@@ -46,7 +46,20 @@ export function featureToEntity(feature: Feature, type: string): Area | Corridor
     }
     default: {
       console.error('Not a valid type');
-      break;
+
+      return {
+        type: 'Area',
+        priority: 1000,
+        extensionBehaviour: 'trafficZone',
+        created: Date.now(),
+        elevation: 0,
+        height: 0,
+        coordinates: [],
+        properties: {
+          name: 'Error Area',
+        },
+        _id: 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX',
+      };
     }
   }
 }

@@ -1,5 +1,35 @@
 import { Position } from 'geojson';
 
+export type Feature = {
+  type: string,
+  geometry: {
+    type: string,
+    coordinates: Position | Position[] | Position[][] | Position[][][] | number[],
+  },
+  properties: {
+    name?: string;
+  };
+  id: string;
+};
+
+export type FeatureCollection = {
+  type: string,
+  features: Feature[]
+}
+
+export type Corridor = {
+  type: string;
+  priority: number;
+  extensionBehaviour: string;
+  created: number;
+  shape: string;
+  coordinates: Position | Position[] | Position[][] | Position[][][] | number[];
+  properties: {
+    name: string;
+  };
+  _id: string;
+};
+
 export type Area = {
   type: string;
   priority: number;
@@ -22,19 +52,6 @@ export type AreaInfo = {
   properties?: {
     name: string;
   };
-};
-
-export type Corridor = {
-  type: string;
-  priority: number;
-  extensionBehaviour: string;
-  created: number;
-  shape: string;
-  coordinates: Position | Position[] | Position[][] | Position[][][] | number[];
-  properties: {
-    name: string;
-  };
-  _id: string;
 };
 
 export type Coords = {
