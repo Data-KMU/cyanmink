@@ -19,16 +19,27 @@ code {
   z-index: 100;
 }
 
-.loader {
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100vw;
   height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  background-color: white;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 400ms ease-in-out 2s;
+  z-index: 20;
 }
 
-.loader.loading {
-  background-color: orange;
+.overlay.active {
+  opacity: 0.8;
 }
 
-.loader.error {
-  background-color: red;
+.overlay p {
+  font-size: 2rem;
 }

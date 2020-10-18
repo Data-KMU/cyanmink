@@ -2,11 +2,11 @@ import create from 'zustand';
 
 type State = {
   loaded: boolean;
-  toggleLoaded: () => void;
+  setLoaded: () => void;
 };
 
 export const useInterfaceStore = create<State>((set) => ({
   loaded: false,
-  toggleLoaded: () =>
-    set((state) => ({ loaded: !state.loaded })),
+  setLoaded: () =>
+    set({ loaded: true }),
 }));

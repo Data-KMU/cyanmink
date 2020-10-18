@@ -209,7 +209,7 @@ function Editor() {
 function Map() {
   const MapRef = useRef<any>();
   const updateCoords = useMapStore((state) => state.updateCoords);
-  const toggleLoaded = useInterfaceStore((state) => state.toggleLoaded);
+  const setLoaded = useInterfaceStore((state) => state.setLoaded);
 
   const Map = ReactMapboxGl({
     accessToken: process.env.REACT_APP_MAPBOX_KEY!,
@@ -229,7 +229,7 @@ function Map() {
 
           // State Updates
           updateCoords([coords.longitude, coords.latitude]);
-          toggleLoaded();
+          setLoaded();
 
           // Purpletiger Abfrage
           return getSpatialEntitiesIDs(coords).then(res => res.spatialEntities)
