@@ -18,13 +18,17 @@ function Editor({ DrawRef }: EditorProps) {
     const featureID = feature.id;
 
     addFeature(feature);
+
+    console.log(feature);
+    console.log(featureToEntity(feature));
+
     postSpatialEntity(featureToEntity(feature)).then(res => {
       DrawRef.current.draw.delete(featureID);
 
       feature.id = res.targetId;
 
       DrawRef.current.draw.add(feature);
-      console.log(DrawRef.current.draw.getAll());
+      console.log(res.targetId);
     });
   };
 
@@ -60,6 +64,7 @@ function Editor({ DrawRef }: EditorProps) {
           trash: false,
           combine_features: false,
           uncombine_features: false,
+          line_string: false
         }}
         onDrawCreate={onDrawCreate}
         onDrawUpdate={onDrawUpdate}

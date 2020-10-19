@@ -8,6 +8,10 @@ export type Feature = {
   },
   properties: {
     name?: string;
+    elevation?: number;
+    extensionBehaviour?: string;
+    height?: number;
+    priority?: number;
   };
   id: string;
 };

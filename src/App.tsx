@@ -1,15 +1,17 @@
 import React from 'react';
 
 import Map from './components/Map';
-import Button from './components/Button';
 import LoadingOverlay from './components/LoadingOverlay'
+import FeatureList from './components/FeatureList';
 
 function App() {
   return (
     <div>
       <LoadingOverlay />
       <Map />
-      <Button />
+      <div className="container">
+      <FeatureList />
+      </div>
     </div>
   );
 }

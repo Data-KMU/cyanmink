@@ -46,7 +46,7 @@ function Map() {
         console.log(entitiesIDs);
 
         // Hardcoded till Purpletiger gives back IDs
-        const hardCodedEntitiesIDS = ['c56b3543-6853-4d86-a7bc-1cde673a5582', 'eba71d74-a1f5-4c8d-a462-4c04234ebed4', '6153f535-62fe-42d2-956c-d1af5e1dc935', "8f6e2a67-5d95-484d-8fdc-46de09322193"];
+        const hardCodedEntitiesIDS = ['c56b3543-6853-4d86-a7bc-1cde673a5582', 'eba71d74-a1f5-4c8d-a462-4c04234ebed4', '6153f535-62fe-42d2-956c-d1af5e1dc935', '8f6e2a67-5d95-484d-8fdc-46de09322193', 'a1ec86cc-537a-4ec3-ab00-c64d96577d4c', '5c35b853-c693-420d-936a-da9516d4106f'];
 
         hardCodedEntitiesIDS!.forEach(entityID => {
           getSpatialEntities(entityID).then(res => {

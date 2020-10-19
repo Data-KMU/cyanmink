@@ -1,45 +1,82 @@
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+button {
+    pointer-events: all;
+    cursor: pointer;
+}
+
+button:focus {
+    outline: none;
 }
 
 .console-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 100;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100;
 }
 
 .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  background-color: white;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 400ms ease-in-out 2s;
-  z-index: 20;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: white;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 400ms ease-in-out 2s;
+    z-index: 20;
 }
 
 .overlay.active {
-  opacity: 0.8;
+    opacity: 0.8;
 }
 
 .overlay p {
-  font-size: 2rem;
+    font-size: 2rem;
+}
+
+/* Mapbox Styles */
+.mapboxgl-ctrl-group {
+    border-radius: 10px !important;
+}
+
+.mapboxgl-ctrl-group button {
+    width: 50px !important;
+    height: 50px !important;
+}
+
+.mapboxgl-ctrl button:hover {
+    background-color: white !important;
+    border: 2px solid black;
+}
+
+.mapboxgl-ctrl-group:not(:empty) {
+    box-shadow: 10px 10px 75px 0 rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Main styles */
+.container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    pointer-events: none;
 }

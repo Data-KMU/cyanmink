@@ -1,15 +1,37 @@
 import { Area, Corridor, Feature } from '../interfaces';
 
 export function entityToFeature(entity: Area | Corridor) {
-  return {
-    type: 'Feature',
-    geometry: {
-      type: entity.type === 'Area' ? 'Polygon' : 'LineString',
-      coordinates: entity.coordinates,
-    },
-    properties: entity.properties != null ? entity.properties : {},
-    id: entity._id,
-  };
+  if ('elevation' in entity) {
+    return {
+      type: 'Feature',
+      geometry: {
+        type: 'Polygon',
+        coordinates: entity.coordinates,
+      },
+      properties: {
+        name: entity.properties.name,
+        elevation: entity.elevation,
+        extensionBehaviour: entity.extensionBehaviour,
+        height: entity.height,
+        priority: entity.priority,
+      },
+      id: entity._id,
+    };
+  } else {
+    return {
+      type: 'Feature',
+      geometry: {
+        type: 'LineString',
+        coordinates: entity.coordinates,
+      },
+      properties: {
+        name: entity.properties.name,
+        extensionBehaviour: entity.extensionBehaviour,
+        priority: entity.priority,
+      },
+      id: entity._id,
+    };
+  }
 }
 
 export function featureToEntity(feature: Feature): Area | Corridor {
@@ -24,7 +46,7 @@ export function featureToEntity(feature: Feature): Area | Corridor {
         height: 0,
         coordinates: feature.geometry.coordinates,
         properties: {
-          name: feature.properties && feature.properties.name ? feature.properties.name : 'Area',
+          name: 'Test name',
         },
         _id: 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX',
       };
@@ -38,8 +60,7 @@ export function featureToEntity(feature: Feature): Area | Corridor {
         shape: 'circular',
         coordinates: feature.geometry.coordinates,
         properties: {
-          name:
-            feature.properties && feature.properties.name ? feature.properties.name : 'Corridor',
+          name: 'Test name',
         },
         _id: 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX',
       };
